@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+</head>
+<body>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="editstudent.html">Edit Student</a>
+    <a href="viewstudents.html">View Students</a>
+    <a href="logout.html">Logout</a>
+    <h1>Add New Student</h1>
+    <form action="/viewstudents" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter student's name" required/><br><br>
+        <label for="rollno">Roll Number:</label>
+        <input type="text" id="rollno" name="rollno" placeholder="Enter student's roll number" required/><br><br>
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" name="grade" placeholder="Enter student's grade" required/><br><br>
+        <input type="submit" value="Add Student"/>
+    </form>
+</body>
+</html>
