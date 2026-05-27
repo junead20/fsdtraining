@@ -4,16 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJRHzKyfB2OvdcWyKMRbFgbRb8-LfwJ8vUA&s');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            color: yellow;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            width: 320px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="text"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            display: block;
+            margin: 20px auto 0;
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color:rgb(59, 66, 114);
+            color: yellow;
+        }
+    </style>
 </head>
 <body>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="addstudent.html">Add Student</a>
+        <a href="viewstudents.html">View Students</a>
+        <a href="logout.html">Logout</a>
+    </nav>
     <h1>Edit Student</h1>
-    <form action="/dashboard.html" method="post">
+    <form action="dashboard.html" method="post">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" placeholder="Junead" required/><br><br>
+        <input type="text" id="name" name="name" placeholder="Junead" required/>
         <label for="rollno">Roll Number:</label>
-        <input type="text" id="rollno" name="rollno" placeholder="1" required/><br><br>
+        <input type="text" id="rollno" name="rollno" placeholder="1" required/>
         <label for="grade">Grade:</label>
-        <input type="text" id="grade" name="grade" placeholder="A" required/><br><br>
+        <input type="text" id="grade" name="grade" placeholder="A" required/>
         <input type="submit" value="Update Student"/>
     </form>
 </body>

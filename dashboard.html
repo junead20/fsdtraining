@@ -4,12 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJRHzKyfB2OvdcWyKMRbFgbRb8-LfwJ8vUA&s');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+        nav{
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+        }
+        nav a{
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover{
+            color:yellow;
+        }
+        h1{
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <a href="addstudent.html">Add Student</a>
-    <a href="editstudent.html">Edit Student</a>
-    <a href="viewstudents.html">View Students</a>
-    <a href="logout.html">Logout</a>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="addstudent.html">Add Student</a>
+        <a href="editstudent.html">Edit Student</a>
+        <a href="viewstudents.html">View Students</a>
+        <a href="logout.html">Logout</a>
+    </nav>
     <h1>Welcome to the student management Dashboard</h1>
 </body>
 </html>

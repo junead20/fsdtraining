@@ -4,12 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students list</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJRHzKyfB2OvdcWyKMRbFgbRb8-LfwJ8vUA&s');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            color: yellow;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: cyan;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="addstudent.html">Add Student</a>
-    <a href="editstudent.html">Edit Student</a>
-    <a href="logout.html">Logout</a>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="addstudent.html">Add Student</a>
+        <a href="editstudent.html">Edit Student</a>
+        <a href="logout.html">Logout</a>
+    </nav>
     <h1>Students List</h1>
     <table border="1">
         <tr>
