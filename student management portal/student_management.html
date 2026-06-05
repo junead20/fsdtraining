@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Portal</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand i {
+            font-size: 2rem;
+        }
+
+        /* Navbar logo image */
+        .navbar-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .brand-text {
+            color: white !important;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1;
+            display: inline-block;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin: 0 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: white !important;
+            border-bottom: 3px solid white;
+        }
+
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-item:hover {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-login {
+            background-color: white;
+            color: #667eea;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-login:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: #667eea;
+        }
+
+        /* Hero Section Styling */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -50px;
+            display: none; /* removed decorative floating ball */
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -100px;
+            display: none; /* removed decorative floating ball */
+        }
+
+        /* removed float keyframes to disable animations */
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: none !important;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: none !important;
+        }
+
+        /* Disabled slideIn animations for a static hero */
+
+        .btn-register {
+            background-color: white;
+            color: #667eea;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            animation: none !important;
+        }
+
+        .btn-register:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: #667eea;
+        }
+
+        .btn-register:active {
+            transform: translateY(-1px);
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: #333;
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+        }
+
+        /* ============ DARK MODE STYLING ============ */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .navbar {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .hero-section {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        body.dark-mode .hero-content h1 {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .hero-content p {
+            color: #d0d0d0;
+            opacity: 1;
+        }
+
+        body.dark-mode .btn-register {
+            background-color: white;
+            color: #2a2a2a;
+            font-weight: 700;
+        }
+
+        body.dark-mode .btn-register:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+        }
+
+        body.dark-mode .badge-attendance {
+            font-weight: 700;
+        }
+
+        body.dark-mode .badge-high {
+            background-color: rgba(76, 175, 80, 0.3);
+            color: #a8e6c7;
+            border: 1px solid #4caf50;
+        }
+
+        body.dark-mode .badge-low {
+            background-color: rgba(244, 67, 54, 0.3);
+            color: #f8b4b8;
+            border: 1px solid #f44336;
+        }
+
+        body.dark-mode .input-group-text {
+            background: #2d2d2d;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .input-group input {
+            background: #1a1a1a;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .features-section {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .feature-card {
+            background: #2d2d2d;
+            border-color: #333;
+        }
+
+        body.dark-mode .feature-card:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.1);
+        }
+
+        body.dark-mode .feature-card .card-title {
+            color: #80b9ff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .feature-card .card-text {
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .page-title {
+            color: #80b9ff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .registration-container h2 {
+            color: #80b9ff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .contact-container h2 {
+            color: #80b9ff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .profile-branch {
+            color: #80b9ff;
+            font-weight: 600;
+        }
+
+        body.dark-mode .profile-name {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        body.dark-mode footer {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-top: 1px solid #333;
+        }
+
+        body.dark-mode .footer-section h5 {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        body.dark-mode .registration-container,
+        body.dark-mode .contact-container {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .registration-container h2,
+        body.dark-mode .contact-container h2 {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .form-group label {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group select,
+        body.dark-mode .form-group textarea {
+            background: #1a1a1a;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-group input:focus,
+        body.dark-mode .form-group select:focus,
+        body.dark-mode .form-group textarea:focus {
+            background: #1a1a1a;
+            border-color: #667eea;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-group input::placeholder {
+            color: #999;
+        }
+
+        body.dark-mode .form-group textarea::placeholder {
+            color: #999;
+        }
+
+        body.dark-mode .checkbox-group {
+            background: #242424;
+            border: 1px solid #555;
+        }
+
+        body.dark-mode .checkbox-group label {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        body.dark-mode .checkbox-group a {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .checkbox-group a:hover {
+            color: #b0d4ff;
+        }
+
+        body.dark-mode .dashboard-page {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .page-title {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .stat-card {
+            background: #2d2d2d;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .stat-card-value {
+            color: #80b9ff !important;
+        }
+
+        body.dark-mode .stat-card.present .stat-card-value {
+            color: #6fdd94 !important;
+        }
+
+        body.dark-mode .stat-card.absent .stat-card-value {
+            color: #ff7a8a !important;
+        }
+
+        body.dark-mode .stat-card.placement .stat-card-value {
+            color: #ffc75f !important;
+        }
+
+        body.dark-mode .stat-card-label {
+            color: #b0b0b0;
+            font-weight: 600;
+        }
+
+        body.dark-mode .student-table {
+            background: transparent;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        body.dark-mode .student-table table {
+            background: #1f1f1f;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .student-table thead {
+            background: #222;
+        }
+
+        body.dark-mode .student-table thead th {
+            color: #ffffff;
+            font-weight: 700;
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .student-table tbody tr:hover {
+            background-color: #2a2a2a;
+        }
+
+        body.dark-mode .student-table tbody td {
+            border-color: transparent;
+            background: transparent;
+            color: inherit;
+        }
+
+        /* In dark mode, make the detail cards light so inner text appears black */
+        body.dark-mode .student-detail-card {
+            background: #f7f7f7;
+            color: #000;
+            border-left-color: #ddd;
+        }
+
+        body.dark-mode .student-table .badge-attendance {
+            color: #ffffff;
+        }
+
+        body.dark-mode .search-box input {
+            background: #2d2d2d;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .profile-card {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode .profile-body {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode .profile-name {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .profile-info-item {
+            border-bottom-color: #333;
+        }
+
+        body.dark-mode .profile-info-label {
+            color: #a0a0a0;
+            font-weight: 600;
+        }
+
+        body.dark-mode .profile-info-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        body.dark-mode .profile-actions {
+            background: #242424;
+            border-top: 1px solid #444;
+        }
+
+        body.dark-mode .btn-edit-profile {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        body.dark-mode .btn-edit-profile:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        body.dark-mode .btn-logout {
+            background: #333;
+            color: #667eea;
+            border: 2px solid #555;
+        }
+
+        body.dark-mode .btn-logout:hover {
+            background: #555;
+            color: #80b9ff;
+        }
+
+        body.dark-mode .accordion-button {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        body.dark-mode .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            color: white;
+        }
+
+        body.dark-mode .accordion-body {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        body.dark-mode .alert {
+            border-color: #444;
+        }
+
+        body.dark-mode .alert-success {
+            background-color: rgba(25, 135, 84, 0.25);
+            border-color: #52b788;
+            color: #a8e6c7;
+        }
+
+        body.dark-mode .alert-error {
+            background-color: rgba(220, 53, 69, 0.25);
+            border-color: #e74c3c;
+            color: #f8b4b8;
+        }
+
+        body.dark-mode .alert-info {
+            background-color: rgba(33, 150, 243, 0.25);
+            border-color: #2196f3;
+            color: #81d4ff;
+        }
+
+        body.dark-mode .modal-content {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        body.dark-mode .modal-header {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            color: white;
+            border-bottom: 1px solid #555;
+        }
+
+        body.dark-mode .modal-body {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .modal-body .form-group label {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        body.dark-mode .modal-footer {
+            background: #242424;
+            border-top: 1px solid #444;
+        }
+
+        body.dark-mode .btn-secondary {
+            background: #555;
+            color: #e0e0e0;
+            border-color: #666;
+        }
+
+        body.dark-mode .btn-secondary:hover {
+            background: #666;
+            color: white;
+        }
+
+        body.dark-mode .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+
+        body.dark-mode .btn-primary:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        body.dark-mode .dropdown-menu {
+            background: #2d2d2d;
+            border: 1px solid #555;
+        }
+
+        body.dark-mode .dropdown-item {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        body.dark-mode .dropdown-divider {
+            border-color: #555;
+        }
+
+        body.dark-mode .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        body.dark-mode .nav-link:hover {
+            color: white !important;
+        }
+
+        body.dark-mode .btn-login {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #2d2d2d;
+            font-weight: 600;
+        }
+
+        body.dark-mode .btn-login:hover {
+            background-color: white;
+            color: #667eea;
+        }
+
+        body.dark-mode .btn-learn-more {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        body.dark-mode .btn-learn-more:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        body.dark-mode .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        body.dark-mode .btn-submit:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* ID Card Styling */
+        .id-card-page {
+            display: none;
+            padding: 40px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .id-card-page.active {
+            display: block;
+        }
+
+        body.dark-mode .id-card-page {
+            background: #1a1a1a;
+        }
+
+        .id-card {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .id-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .id-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .id-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .id-card-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .id-card-type {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .id-card-photo-section {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .id-card-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            border: 3px solid white;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .id-card-info {
+            margin: 1rem 0;
+        }
+
+        .id-card-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .id-card-info-label {
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .id-card-info-value {
+            font-weight: 700;
+        }
+
+        .id-card-footer {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .id-card-barcode {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* FAQ Section Styling */
+        .faq-page {
+            display: none;
+            padding: 40px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .faq-page.active {
+            display: block;
+        }
+
+        body.dark-mode .faq-page {
+            background: #1a1a1a;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .faq-intro h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .faq-intro h3 {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .faq-intro p {
+            color: #b0b0b0;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        body.dark-mode .accordion-item {
+            background: #2d2d2d;
+            border-color: #444;
+        }
+
+        /* Announcements Section */
+        .announcements-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode .announcements-section {
+            background: #2d2d2d;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .announcements-section h4 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        body.dark-mode .announcements-section h4 {
+            color: #80b9ff;
+        }
+
+        .announcement-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .announcement-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .announcement-item.info {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+
+        .announcement-item.success {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .announcement-item.warning {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+
+        .announcement-item.danger {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        body.dark-mode .announcements-section {
+            background: #2d2d2d;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .announcements-section h4 {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .announcement-item {
+            background: #1a1a1a;
+            border-left: 4px solid #667eea;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .announcement-item.info {
+            background: rgba(33, 150, 243, 0.15);
+            border-left-color: #2196f3;
+        }
+
+        body.dark-mode .announcement-item.success {
+            background: rgba(76, 175, 80, 0.15);
+            border-left-color: #4caf50;
+        }
+
+        body.dark-mode .announcement-item.warning {
+            background: rgba(255, 152, 0, 0.15);
+            border-left-color: #ff9800;
+        }
+
+        body.dark-mode .announcement-item.danger {
+            background: rgba(244, 67, 54, 0.15);
+            border-left-color: #f44336;
+        }
+
+        body.dark-mode .announcement-title {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .announcement-time {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        body.dark-mode .id-card-page {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .id-card {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .faq-page {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .faq-intro h3 {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .faq-intro p {
+            color: #d0d0d0;
+        }
+
+        body.dark-mode .accordion-item {
+            background: #2d2d2d;
+            border-color: #555;
+        }
+
+        body.dark-mode .accordion-body {
+            background: #1a1a1a;
+            color: #d0d0d0;
+            border-color: #555;
+        }
+
+        body.dark-mode .accordion-button {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+
+        body.dark-mode .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #555 0%, #444 100%);
+            color: white;
+        }
+
+        body.dark-mode .accordion-button:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+        }
+
+        body.dark-mode .student-table thead th {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        body.dark-mode .search-box input {
+            background: #2d2d2d;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .search-box input:focus {
+            background: #2d2d2d;
+            border-color: #667eea;
+            color: #e0e0e0;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        body.dark-mode .form-error {
+            color: #ff9999;
+        }
+
+        body.dark-mode .success-message {
+            background: rgba(25, 135, 84, 0.2);
+            border: 1px solid #52b788;
+            color: #a8e6c7;
+        }
+
+        body.dark-mode .registration-container .form-subtitle {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode .contact-container .form-subtitle {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode .footer-section p {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode .footer-section ul li a {
+            color: #80b9ff;
+        }
+
+        body.dark-mode .footer-section ul li a:hover {
+            color: #b0d4ff;
+        }
+
+        .announcement-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .announcement-time {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .hero-section {
+                padding: 60px 0;
+                min-height: auto;
+            }
+
+            .btn-register {
+                padding: 10px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .nav-link {
+                margin: 0.3rem 0;
+            }
+        }
+
+        /* ============ FEATURES SECTION ============ */
+        .features-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .features-section .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .feature-card .card-body {
+            padding: 2rem;
+        }
+
+        .feature-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card .card-text {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-learn-more {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-learn-more:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h5 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+            padding-left: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ============ REGISTRATION FORM PAGE ============ */
+        .registration-page {
+            display: none;
+            padding: 60px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .registration-page.active {
+            display: block;
+        }
+
+        .registration-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-container h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .registration-container .form-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .input-group-text {
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .input-group input {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .checkbox-group a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .form-error {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.05);
+        }
+
+        .form-group.error .form-error {
+            display: block;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* ============ DASHBOARD PAGE ============ */
+        .dashboard-page {
+            display: none;
+            padding: 40px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .dashboard-page.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 2rem;
+        }
+
+        /* Statistics Cards */
+        .stat-card {
+            background: white;
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .stat-card.present {
+            border-left-color: #198754;
+        }
+
+        .stat-card.absent {
+            border-left-color: #dc3545;
+        }
+
+        .stat-card.placement {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card.present .stat-card-value {
+            color: #198754;
+        }
+
+        .stat-card.absent .stat-card-value {
+            color: #dc3545;
+        }
+
+        .stat-card.placement .stat-card-value {
+            color: #ffc107;
+        }
+
+        .stat-card-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Small card used inside table cells to match dashboard stat styling */
+        .student-detail-card {
+            background: #ffffff;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            padding: 0.45rem 0.75rem;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .student-detail-card .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .student-detail-card.present { border-left-color: #198754; }
+        .student-detail-card.absent { border-left-color: #dc3545; }
+        .student-detail-card.placement { border-left-color: #ffc107; }
+
+        /* Header card: use same visible card styling as student-detail-card */
+        .student-detail-card.header-card {
+            min-width: 140px;
+            padding: 0.5rem 0.9rem;
+            background: transparent; /* match table body */
+            border-left: 4px solid #000; /* white left border for header */
+            border-radius: 8px;
+            box-shadow: none;
+            display: inline-block;
+        }
+
+        .student-detail-card.header-card .detail-value {
+            font-weight: 700;
+            color: #000;
+        }
+
+        body.dark-mode .student-detail-card.header-card .detail-value {
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Dark mode: keep header-card visible but with light background so inner text is readable */
+        body.dark-mode .student-detail-card.header-card {
+            background: transparent; /* keep header transparent in dark mode */
+            color: inherit;
+            border-left-color: white; /* keep header left border black in dark mode */
+            box-shadow: none;
+        }
+
+        /* Ensure the table header area itself doesn't show a white background */
+        .student-table thead {
+            background: transparent;
+        }
+
+        .student-table table {
+            background: transparent;
+        }
+
+        /* Search Box */
+        .search-box {
+            margin-bottom: 2rem;
+        }
+
+        .search-box input {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Student Table */
+        .student-table {
+            background: transparent; /* make table container transparent */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .student-table table {
+            margin-bottom: 0;
+        }
+
+        .student-table thead {
+            background: transparent; /* header area should be transparent */
+            color: inherit;
+        }
+
+        .student-table thead th {
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+            border-color: white;
+            background-color: transparent;
+        }
+
+        .student-table tbody td {
+            padding: 1rem;
+            border-color: transparent;
+            vertical-align: middle;
+        }
+
+        .student-table tbody tr:hover {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .badge-attendance {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .badge-high {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-low {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* ============ PROFILE PAGE ============ */
+        .profile-page {
+            display: none;
+            padding: 40px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .profile-page.active {
+            display: block;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin: 0 auto -75px;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-body {
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-branch {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-info {
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .profile-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .profile-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-info-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+            min-width: 30px;
+        }
+
+        .profile-info-content {
+            flex: 1;
+        }
+
+        .profile-info-label {
+            font-size: 0.85rem;
+            color: #999;
+            font-weight: 600;
+        }
+
+        .profile-info-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .profile-actions {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .profile-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-edit-profile {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-edit-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-logout {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-logout:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ============ CONTACT PAGE ============ */
+        .contact-page {
+            display: none;
+            padding: 40px 0;
+            background: #f8f9fa;
+            min-height: calc(100vh - 70px);
+        }
+
+        .contact-page.active {
+            display: block;
+        }
+
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-container h2 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .contact-container .form-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            display: none;
+        }
+
+        .alert-success.show {
+            display: block;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: none;
+        }
+
+        .alert-error.show {
+            display: block;
+        }
+
+        /* Accordion Styling */
+        .accordion-button {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+            border: 1px solid #e0e0e0;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .accordion-body {
+            background: white;
+            color: #666;
+        }
+
+        /* Modal Styling */
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Collapse Section */
+        .collapse-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .collapse-button {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            color: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .collapse-button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .features-section {
+                padding: 60px 0;
+            }
+
+            .registration-container {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row.full {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+
+            .student-table {
+                font-size: 0.9rem;
+            }
+
+            .student-table thead th {
+                padding: 0.75rem;
+            }
+
+            .student-table tbody td {
+                padding: 0.75rem;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .contact-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER SECTION ============ -->
+    <header>
+        <!-- Responsive Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container-fluid">
+                <!-- Navbar Brand with Logo -->
+                <a class="navbar-brand d-flex align-items-center" href="#home">
+                    <img src="data:image/jpeg;base64,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" alt="College Logo" class="navbar-logo me-2" onerror="this.onerror=null;this.src='https://via.placeholder.com/48?text=Logo';">
+                    <span class="brand-text">CVRCE</span>
+                </a>
+
+                <!-- Navbar Toggler for Mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navbar Content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto gap-3">
+                        <!-- Home Link -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#home" onclick="showPage('home'); return false;">
+                                <i class="bi bi-house-door"></i> Home
+                            </a>
+                        </li>
+
+                        <!-- Dashboard Link -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#dashboard" onclick="showPage('dashboard'); return false;">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <!-- Profile Link -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#profile" onclick="showPage('profile'); return false;">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+
+                        <!-- ID Card Link -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#idcard" onclick="showPage('idcard'); return false;">
+                                <i class="bi bi-credit-card"></i> ID Card
+                            </a>
+                        </li>
+
+                        <!-- FAQ Link -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq" onclick="showPage('faq'); return false;">
+                                <i class="bi bi-question-circle"></i> FAQ
+                            </a>
+                        </li>
+
+                        <!-- Courses Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-book"></i> Courses
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="coursesDropdown">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-code-slash"></i> Web Development</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-app"></i> Mobile Development</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-diagram-3"></i> Data Science</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-list"></i> View All Courses</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Contact Link -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact" onclick="showPage('contact'); return false;">
+                                <i class="bi bi-telephone"></i> Contact
+                            </a>
+                        </li>
+
+                        <!-- Login Button -->
+                        <li class="nav-item">
+                            <button class="btn btn-login">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </button>
+                        </li>
+
+                        <!-- Dark Mode Toggle -->
+                        <li class="nav-item">
+                            <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                                <i class="bi bi-moon-fill"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============ HERO SECTION ============ -->
+    <section id="home" class="hero-section page-home active">
+        <div class="hero-content">
+            <h1>Welcome to Student Management Portal</h1>
+            <p>Empowering students with world-class education and industry-relevant skills</p>
+            <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 2rem;">
+                Join thousands of students learning to code and advance their careers
+            </p>
+            <button class="btn btn-register" id="registerBtn">
+                <i class="bi bi-person-plus"></i> Register Now
+            </button>
+        </div>
+    </section>
+
+    <!-- ============ FEATURES SECTION ============ -->
+    <section id="features" class="features-section page-home">
+        <div class="container">
+            <h2 class="section-title">Our Key Features</h2>
+            
+            <div class="row g-4">
+                <!-- Feature Card 1: Student Registration -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-img-top">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Student Registration</h5>
+                            <p class="card-text">
+                                Easy and secure student registration process with comprehensive profile management. Complete your information in just a few clicks.
+                            </p>
+                            <a href="#register" class="btn-learn-more">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Card 2: Attendance Management -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-img-top">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Attendance Management</h5>
+                            <p class="card-text">
+                                Real-time attendance tracking and detailed reports. Monitor your class attendance and track your performance metrics.
+                            </p>
+                            <a href="#" class="btn-learn-more">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Card 3: Results Management -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card">
+                        <div class="card-img-top">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Results Management</h5>
+                            <p class="card-text">
+                                Access your exam results and academic progress instantly. View detailed analytics and improvement suggestions.
+                            </p>
+                            <a href="#" class="btn-learn-more">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ REGISTRATION FORM PAGE ============ -->
+    <section id="register" class="registration-page">
+        <div class="container">
+            <div class="registration-container">
+                <button type="button" class="btn-close" id="closeRegister" style="float: right; margin-bottom: 1rem;"></button>
+                
+                <h2>Student Registration Form</h2>
+                <p class="form-subtitle">Please fill in all the required fields</p>
+
+                <div class="success-message" id="successMessage">
+                    <i class="bi bi-check-circle"></i> Registration submitted successfully! We'll contact you soon.
+                </div>
+
+                <form id="registrationForm" novalidate>
+                    <!-- Full Name & Roll Number Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span style="color: #dc3545;">*</span></label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                            <div class="form-error">Full name is required</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rollNumber">Roll Number <span style="color: #dc3545;">*</span></label>
+                            <input type="text" class="form-control" id="rollNumber" name="rollNumber" placeholder="Enter your roll number" required>
+                            <div class="form-error">Roll number is required</div>
+                        </div>
+                    </div>
+
+                    <!-- Email & Mobile Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span style="color: #dc3545;">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="your.email@example.com" required>
+                            <div class="form-error">Please enter a valid email address</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number <span style="color: #dc3545;">*</span></label>
+                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                            <div class="form-error">Please enter a valid 10-digit mobile number</div>
+                        </div>
+                    </div>
+
+                    <!-- Gender & Date of Birth Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gender">Gender <span style="color: #dc3545;">*</span></label>
+                            <select class="form-control" id="gender" name="gender" required>
+                                <option value="">-- Select Gender --</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="form-error">Please select a gender</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dob">Date of Birth <span style="color: #dc3545;">*</span></label>
+                            <input type="date" class="form-control" id="dob" name="dob" required>
+                            <div class="form-error">Please select your date of birth</div>
+                        </div>
+                    </div>
+
+                    <!-- Branch & Address Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="branch">Branch <span style="color: #dc3545;">*</span></label>
+                            <select class="form-control" id="branch" name="branch" required>
+                                <option value="">-- Select Branch --</option>
+                                <option value="cse">Computer Science & Engineering</option>
+                                <option value="ece">Electronics & Communication</option>
+                                <option value="me">Mechanical Engineering</option>
+                                <option value="ce">Civil Engineering</option>
+                                <option value="ee">Electrical Engineering</option>
+                            </select>
+                            <div class="form-error">Please select a branch</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="photo">Upload Photo <span style="color: #dc3545;">*</span></label>
+                            <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+                            <div class="form-error">Please upload a photo</div>
+                        </div>
+                    </div>
+
+                    <!-- Address (Full Width) -->
+                    <div class="form-group form-row full">
+                        <div class="form-group" style="margin: 0;">
+                            <label for="address">Address <span style="color: #dc3545;">*</span></label>
+                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter your complete address" required></textarea>
+                            <div class="form-error">Address is required</div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions Checkbox -->
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">
+                            I agree to the <a href="#" onclick="return false;">Terms and Conditions</a> and <a href="#" onclick="return false;">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-check-lg"></i> Submit Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ DASHBOARD PAGE ============ -->
+    <section id="dashboard" class="dashboard-page">
+        <div class="container">
+            <h2 class="page-title"><i class="bi bi-speedometer2"></i> Student Dashboard</h2>
+
+            <!-- Announcements Section -->
+            <div class="announcements-section">
+                <h4><i class="bi bi-megaphone"></i> Important Announcements</h4>
+
+                <div class="announcement-item info">
+                    <div class="announcement-title"><i class="bi bi-info-circle"></i> Summer Semester Registration Open</div>
+                    <p style="margin: 0.5rem 0; opacity: 0.9;">Registration for summer semester 2026 is now open. Complete your registration by June 15, 2026.</p>
+                    <div class="announcement-time">Posted on: June 5, 2026</div>
+                </div>
+
+                <div class="announcement-item success">
+                    <div class="announcement-title"><i class="bi bi-check-circle"></i> Exam Results Published</div>
+                    <p style="margin: 0.5rem 0; opacity: 0.9;">Final semester exam results have been published. Check your profile to view detailed scores and performance analytics.</p>
+                    <div class="announcement-time">Posted on: June 3, 2026</div>
+                </div>
+
+                <div class="announcement-item warning">
+                    <div class="announcement-title"><i class="bi bi-exclamation-triangle"></i> Maintenance Window</div>
+                    <p style="margin: 0.5rem 0; opacity: 0.9;">The portal will be under maintenance on June 10, 2026 from 2:00 PM to 6:00 PM. Plan accordingly.</p>
+                    <div class="announcement-time">Posted on: June 2, 2026</div>
+                </div>
+
+                <div class="announcement-item danger">
+                    <div class="announcement-title"><i class="bi bi-exclamation-circle"></i> Low Attendance Alert</div>
+                    <p style="margin: 0.5rem 0; opacity: 0.9;">Your attendance is below 75%. Please consult with your department head to regularize your attendance.</p>
+                    <div class="announcement-time">Posted on: June 1, 2026</div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="stat-card">
+                        <div class="stat-card-icon"><i class="bi bi-people-fill text-primary"></i></div>
+                        <div class="stat-card-value">2,450</div>
+                        <div class="stat-card-label">Total Students</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="stat-card present">
+                        <div class="stat-card-icon"><i class="bi bi-check-circle-fill text-success"></i></div>
+                        <div class="stat-card-value">2,180</div>
+                        <div class="stat-card-label">Present Students</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="stat-card absent">
+                        <div class="stat-card-icon"><i class="bi bi-x-circle-fill text-danger"></i></div>
+                        <div class="stat-card-value">270</div>
+                        <div class="stat-card-label">Absent Students</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="stat-card placement">
+                        <div class="stat-card-icon"><i class="bi bi-briefcase-fill text-warning"></i></div>
+                        <div class="stat-card-value">1,890</div>
+                        <div class="stat-card-label">Placements</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Student Table -->
+            <div class="mt-4">
+                <h4 style="color: #667eea; margin-bottom: 1.5rem; font-weight: 700;">Student Records</h4>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search by Roll Number, Name, or Branch..." style="padding: 0.75rem 1rem; font-size: 1rem;">
+                </div>
+
+                <div class="student-table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><div class="student-detail-card header-card"><i class="bi bi-hash"></i> <div class="detail-value">Roll No</div></div></th>
+                                <th><div class="student-detail-card header-card"><i class="bi bi-person"></i> <div class="detail-value">Name</div></div></th>
+                                <th><div class="student-detail-card header-card"><i class="bi bi-building"></i> <div class="detail-value">Branch</div></div></th>
+                                <th><div class="student-detail-card header-card"><i class="bi bi-calendar2-check"></i> <div class="detail-value">Attendance</div></div></th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <tr>
+                                <td>2401001</td>
+                                <td>Rahul Kumar</td>
+                                <td>Computer Science & Engineering</td>
+                                <td><span class="badge badge-attendance badge-high">92%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401002</td>
+                                <td>Priya Singh</td>
+                                <td>Electronics & Communication</td>
+                                <td><span class="badge badge-attendance badge-high">85%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401003</td>
+                                <td>Amit Patel</td>
+                                <td>Mechanical Engineering</td>
+                                <td><span class="badge badge-attendance badge-low">65%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401004</td>
+                                <td>Neha Gupta</td>
+                                <td>Civil Engineering</td>
+                                <td><span class="badge badge-attendance badge-high">88%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401005</td>
+                                <td>Vikram Sharma</td>
+                                <td>Electrical Engineering</td>
+                                <td><span class="badge badge-attendance badge-high">90%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401006</td>
+                                <td>Anjali Verma</td>
+                                <td>Computer Science & Engineering</td>
+                                <td><span class="badge badge-attendance badge-high">95%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401007</td>
+                                <td>Rohan Desai</td>
+                                <td>Electronics & Communication</td>
+                                <td><span class="badge badge-attendance badge-low">72%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2401008</td>
+                                <td>Divya Nair</td>
+                                <td>Mechanical Engineering</td>
+                                <td><span class="badge badge-attendance badge-high">87%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROFILE PAGE ============ -->
+    <section id="profile" class="profile-page">
+        <div class="container">
+            <h2 class="page-title"><i class="bi bi-person-circle"></i> Student Profile</h2>
+
+            <div class="profile-card">
+                <div class="profile-header">
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Student Photo" class="profile-image">
+                </div>
+
+                <div class="profile-body">
+                    <h3 class="profile-name">Junead</h3>
+                    <p class="profile-branch">Computer Science & Engineering</p>
+
+                    <div class="profile-info">
+                        <div class="profile-info-item">
+                            <div class="profile-info-icon"><i class="bi bi-hash"></i></div>
+                            <div class="profile-info-content">
+                                <div class="profile-info-label">Roll Number</div>
+                                <div class="profile-info-value">23B81A05M0</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-icon"><i class="bi bi-envelope"></i></div>
+                            <div class="profile-info-content">
+                                <div class="profile-info-label">Email Address</div>
+                                <div class="profile-info-value">junead@techacademy.com</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-icon"><i class="bi bi-telephone"></i></div>
+                            <div class="profile-info-content">
+                                <div class="profile-info-label">Mobile Number</div>
+                                <div class="profile-info-value">8639079652</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-icon"><i class="bi bi-calendar-event"></i></div>
+                            <div class="profile-info-content">
+                                <div class="profile-info-label">Date of Birth</div>
+                                <div class="profile-info-value">20 October 2005</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-item">
+                            <div class="profile-info-icon"><i class="bi bi-geo-alt"></i></div>
+                            <div class="profile-info-content">
+                                <div class="profile-info-label">Address</div>
+                                <div class="profile-info-value">Sangareddy, Telangana, India</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn-edit-profile" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="bi bi-pencil"></i> Edit Profile
+                    </button>
+                    <button class="btn-logout" onclick="alert('Logging out...');">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT PAGE ============ -->
+    <section id="contact" class="contact-page">
+        <div class="container">
+            <h2 class="page-title"><i class="bi bi-telephone"></i> Contact Us</h2>
+
+            <div class="contact-container">
+                <h2>Get in Touch</h2>
+                <p class="form-subtitle">We'd love to hear from you. Send us a message!</p>
+
+                <div class="alert alert-success" id="contactSuccess">
+                    <i class="bi bi-check-circle"></i> Your message has been sent successfully! We'll get back to you soon.
+                </div>
+
+                <div class="alert alert-error" id="contactError">
+                    <i class="bi bi-exclamation-circle"></i> <span id="errorMessage"></span>
+                </div>
+
+                <form id="contactForm" novalidate>
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="contactName">Full Name <span style="color: #dc3545;">*</span></label>
+                        <input type="text" class="form-control" id="contactName" name="name" placeholder="Enter your full name" required>
+                        <div class="form-error">Full name is required</div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address <span style="color: #dc3545;">*</span></label>
+                        <input type="email" class="form-control" id="contactEmail" name="email" placeholder="your.email@example.com" required>
+                        <div class="form-error">Please enter a valid email address</div>
+                    </div>
+
+                    <!-- Subject Field -->
+                    <div class="form-group">
+                        <label for="contactSubject">Subject <span style="color: #dc3545;">*</span></label>
+                        <input type="text" class="form-control" id="contactSubject" name="subject" placeholder="Enter subject" required>
+                        <div class="form-error">Subject is required</div>
+                    </div>
+
+                    <!-- Message Field -->
+                    <div class="form-group">
+                        <label for="contactMessage">Message <span style="color: #dc3545;">*</span></label>
+                        <textarea class="form-control" id="contactMessage" name="message" rows="5" placeholder="Enter your message here..." required></textarea>
+                        <div class="form-error">Message is required</div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-send"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STUDENT ID CARD PAGE ============ -->
+    <section id="idcard" class="id-card-page">
+        <div class="container">
+            <h2 class="page-title"><i class="bi bi-credit-card"></i> Student ID Card</h2>
+
+            <div class="id-card">
+                <div class="id-card-header">
+                    <div class="id-card-logo">
+                        <i class="bi bi-mortarboard-fill"></i> Tech Academy
+                    </div>
+                    <div class="id-card-type">STUDENT ID</div>
+                </div>
+
+                <div class="id-card-photo-section">
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Student Photo" class="id-card-photo">
+                </div>
+
+                <div class="id-card-info">
+                    <div class="id-card-info-item">
+                        <span class="id-card-info-label">Name</span>
+                        <span class="id-card-info-value">Junead</span>
+                    </div>
+                    <div class="id-card-info-item">
+                        <span class="id-card-info-label">Roll No</span>
+                        <span class="id-card-info-value">23B81A05M0</span>
+                    </div>
+                    <div class="id-card-info-item">
+                        <span class="id-card-info-label">Branch</span>
+                        <span class="id-card-info-value">CSE</span>
+                    </div>
+                    <div class="id-card-info-item">
+                        <span class="id-card-info-label">Year</span>
+                        <span class="id-card-info-value">2023-2027</span>
+                    </div>
+                </div>
+
+                <div class="id-card-footer">
+                    <div>
+                        <div class="id-card-info-label" style="margin-bottom: 0.25rem;">Valid Till</div>
+                        <div class="id-card-barcode">2027-06-30</div>
+                    </div>
+                    <div class="id-card-barcode" style="font-size: 1.2rem;">23B81A05M0</div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-8 mx-auto">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> <strong>Note:</strong> This ID card is valid for the current academic year. Please carry it during your college hours.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FAQ PAGE ============ -->
+    <section id="faq" class="faq-page">
+        <div class="container">
+            <h2 class="page-title"><i class="bi bi-question-circle"></i> Frequently Asked Questions</h2>
+
+            <div class="faq-container">
+                <div class="faq-intro">
+                    <h3>Got Questions? We Have Answers!</h3>
+                    <p>Find answers to commonly asked questions about our portal and academic services.</p>
+                </div>
+
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>How do I register on the portal?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                To register on the portal, click the "Register Now" button on the home page. Fill in your personal details including name, roll number, email, mobile number, and other required information. After submission, you'll receive a confirmation email with your login credentials.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>How can I view my attendance records?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can view your attendance records by logging into your account and navigating to the Dashboard section. Your attendance percentage is displayed along with a detailed breakdown of present and absent days.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>How do I download my ID Card?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can view your digital ID card in the ID Card section of the portal. To download, right-click on the ID card and select "Save image as" or use the print function to save it as a PDF.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>How can I check my exam results?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Exam results are typically published within 2-3 weeks after the exam date. You'll receive an email notification when your results are available. Visit the Dashboard or Results section to view your detailed score breakdown.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>What should I do if I forget my password?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Click the "Forgot Password" link on the login page. Enter your registered email address, and you'll receive a password reset link. Click the link to create a new password.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 6 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                <i class="bi bi-question-circle" style="margin-right: 0.75rem;"></i>How do I update my profile information?
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Go to your Profile section, click the "Edit Profile" button, update your information, and save the changes. You can modify your contact details, address, and profile picture.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ EDIT PROFILE MODAL ============ -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileLabel">
+                        <i class="bi bi-pencil-square"></i> Edit Profile
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm" novalidate>
+                        <div class="form-group">
+                            <label for="editName">Full Name</label>
+                            <input type="text" class="form-control" id="editName" value="Junead">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email Address</label>
+                            <input type="email" class="form-control" id="editEmail" value="junead@techacademy.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="editMobile">Mobile Number</label>
+                            <input type="tel" class="form-control" id="editMobile" value="8639079652" pattern="[0-9]{10}">
+                        </div>
+                        <div class="form-group">
+                            <label for="editAddress">Address</label>
+                            <textarea class="form-control" id="editAddress" rows="3">Sangareddy, Telangana, India</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProfileChanges()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="page-home">
+        <div class="container">
+            <div class="footer-content">
+                <!-- About Section -->
+                <div class="footer-section">
+                    <h5><i class="bi bi-mortarboard-fill"></i> Tech Academy</h5>
+                    <p style="opacity: 0.8; line-height: 1.8;">
+                        We provide world-class education and empower students to become industry-ready professionals through innovative learning methods.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#register">Register</a></li>
+                    </ul>
+                </div>
+
+                <!-- Courses -->
+                <div class="footer-section">
+                    <h5>Courses</h5>
+                    <ul>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile Development</a></li>
+                        <li><a href="#">Data Science</a></li>
+                        <li><a href="#">Cloud Computing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Connect With Us -->
+                <div class="footer-section">
+                    <h5>Connect With Us</h5>
+                    <p style="opacity: 0.8; margin-bottom: 1rem;">Follow us on social media</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="Twitter" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" title="LinkedIn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" title="Instagram" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Tech Academy. All rights reserved. | Designed for Excellence</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ========== PAGE NAVIGATION ==========
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-home').forEach(page => page.style.display = 'block');
+            document.querySelectorAll('.registration-page, .dashboard-page, .profile-page, .contact-page, .id-card-page, .faq-page').forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+
+            // Show selected page
+            switch(pageName) {
+                case 'home':
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'block');
+                    break;
+                case 'register':
+                    document.querySelector('.registration-page').classList.add('active');
+                    document.querySelector('.registration-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+                case 'dashboard':
+                    document.querySelector('.dashboard-page').classList.add('active');
+                    document.querySelector('.dashboard-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+                case 'profile':
+                    document.querySelector('.profile-page').classList.add('active');
+                    document.querySelector('.profile-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+                case 'contact':
+                    document.querySelector('.contact-page').classList.add('active');
+                    document.querySelector('.contact-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+                case 'idcard':
+                    document.querySelector('.id-card-page').classList.add('active');
+                    document.querySelector('.id-card-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+                case 'faq':
+                    document.querySelector('.faq-page').classList.add('active');
+                    document.querySelector('.faq-page').style.display = 'block';
+                    document.querySelectorAll('.page-home').forEach(page => page.style.display = 'none');
+                    break;
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Register button click
+        document.getElementById('registerBtn').addEventListener('click', function () {
+            showPage('register');
+        });
+
+        // Close register button
+        document.getElementById('closeRegister').addEventListener('click', function () {
+            showPage('home');
+        });
+
+        // Feature card "Learn More" links
+        document.querySelectorAll('.btn-learn-more').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#register') {
+                    e.preventDefault();
+                    showPage('register');
+                }
+            });
+        });
+
+        // ========== REGISTRATION FORM VALIDATION ==========
+        const form = document.getElementById('registrationForm');
+        const successMessage = document.getElementById('successMessage');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function validateField(field) {
+            const value = field.value.trim();
+            const parent = field.closest('.form-group');
+            let isValid = true;
+            let errorMessage = '';
+
+            if (!value) {
+                isValid = false;
+                errorMessage = field.name.charAt(0).toUpperCase() + field.name.slice(1) + ' is required';
+            } else {
+                if (field.type === 'email') {
+                    if (!emailPattern.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid email address';
+                    }
+                } else if (field.name === 'mobile') {
+                    if (!/^\d{10}$/.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid 10-digit mobile number';
+                    }
+                } else if (field.name === 'fullName') {
+                    if (value.length < 3) {
+                        isValid = false;
+                        errorMessage = 'Full name must be at least 3 characters';
+                    }
+                }
+            }
+
+            if (isValid) {
+                parent.classList.remove('error');
+            } else {
+                parent.classList.add('error');
+                parent.querySelector('.form-error').textContent = errorMessage;
+            }
+
+            return isValid;
+        }
+
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', function () {
+                if (this.name !== 'terms' && this.name !== 'photo') {
+                    validateField(this);
+                }
+            });
+
+            field.addEventListener('input', function () {
+                if (this.closest('.form-group').classList.contains('error')) {
+                    this.closest('.form-group').classList.remove('error');
+                }
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            successMessage.classList.remove('show');
+
+            let isFormValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+
+            requiredFields.forEach(field => {
+                if (field.name === 'terms') {
+                    if (!field.checked) {
+                        field.closest('.checkbox-group').style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                        isFormValid = false;
+                    }
+                } else if (field.name !== 'photo') {
+                    if (!validateField(field)) {
+                        isFormValid = false;
+                    }
+                }
+            });
+
+            const photoInput = form.querySelector('#photo');
+            if (photoInput && !photoInput.value) {
+                photoInput.closest('.form-group').classList.add('error');
+                isFormValid = false;
+            }
+
+            const termsCheckbox = form.querySelector('#terms');
+            if (!termsCheckbox.checked) {
+                termsCheckbox.closest('.checkbox-group').style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                isFormValid = false;
+            }
+
+            if (isFormValid) {
+                successMessage.classList.add('show');
+                form.reset();
+                form.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
+                form.querySelectorAll('.checkbox-group').forEach(group => group.style.backgroundColor = '#f8f9fa');
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                setTimeout(() => {
+                    showPage('home');
+                    successMessage.classList.remove('show');
+                }, 3000);
+            }
+        });
+
+        // ========== DASHBOARD SEARCH FUNCTIONALITY ==========
+        const searchInput = document.getElementById('searchInput');
+        const studentTableBody = document.getElementById('studentTableBody');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function () {
+                const searchTerm = this.value.toLowerCase();
+                const rows = studentTableBody.querySelectorAll('tr');
+
+                rows.forEach(row => {
+                    const rollNo = row.cells[0].textContent.toLowerCase();
+                    const name = row.cells[1].textContent.toLowerCase();
+                    const branch = row.cells[2].textContent.toLowerCase();
+
+                    if (rollNo.includes(searchTerm) || name.includes(searchTerm) || branch.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ========== CONTACT FORM VALIDATION ==========
+        const contactForm = document.getElementById('contactForm');
+        const contactSuccess = document.getElementById('contactSuccess');
+        const contactError = document.getElementById('contactError');
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                contactSuccess.classList.remove('show');
+                contactError.classList.remove('show');
+
+                let isValid = true;
+                const formFields = this.querySelectorAll('[required]');
+
+                formFields.forEach(field => {
+                    const parent = field.closest('.form-group');
+                    let valid = true;
+
+                    if (!field.value.trim()) {
+                        valid = false;
+                    } else if (field.type === 'email' && !emailPattern.test(field.value)) {
+                        valid = false;
+                    }
+
+                    if (valid) {
+                        parent.classList.remove('error');
+                    } else {
+                        parent.classList.add('error');
+                        isValid = false;
+                    }
+                });
+
+                if (isValid) {
+                    contactSuccess.classList.add('show');
+                    this.reset();
+                    this.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
+
+                    setTimeout(() => {
+                        contactSuccess.classList.remove('show');
+                        showPage('home');
+                    }, 3000);
+                }
+            });
+
+            contactForm.querySelectorAll('input, textarea').forEach(field => {
+                field.addEventListener('input', function () {
+                    if (this.closest('.form-group').classList.contains('error')) {
+                        this.closest('.form-group').classList.remove('error');
+                    }
+                });
+            });
+        }
+
+        // ========== EDIT PROFILE MODAL ==========
+        function saveProfileChanges() {
+            const editName = document.getElementById('editName').value;
+            const editEmail = document.getElementById('editEmail').value;
+            const editMobile = document.getElementById('editMobile').value;
+            const editAddress = document.getElementById('editAddress').value;
+
+            // Update profile display
+            document.querySelector('.profile-name').textContent = editName;
+            document.querySelectorAll('.profile-info-item')[1].querySelector('.profile-info-value').textContent = editEmail;
+            document.querySelectorAll('.profile-info-item')[2].querySelector('.profile-info-value').textContent = editMobile;
+            document.querySelectorAll('.profile-info-item')[4].querySelector('.profile-info-value').textContent = editAddress;
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
+            modal.hide();
+
+            // Show success message
+            alert('Profile updated successfully!');
+        }
+
+        // ========== LOGIN BUTTON ==========
+        document.querySelector('.btn-login').addEventListener('click', function () {
+            alert('Login functionality to be implemented');
+        });
+
+        // ========== NAVBAR COLLAPSE ON NAV CLICK ==========
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                const navbarToggler = document.querySelector('.navbar-toggler');
+                if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                    navbarToggler.click();
+                }
+            });
+        });
+
+        // ========== DARK MODE TOGGLE ==========
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check for saved dark mode preference or default to false
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        
+        // Apply saved preference on page load
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i>';
+        }
+
+        // Dark mode toggle handler
+        darkModeToggle.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i>';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="bi bi-moon-fill"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
