@@ -1,0 +1,29 @@
+/* Custom button variants */
+.btn-primary-custom {
+  background: var(--gradient-1);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.btn-primary-custom:hover {
+  background: var(--gradient-2);
+}
+
+.btn-outline-custom {
+  background: transparent;
+  border: 2px solid var(--gradient-1);
+  color: var(--gradient-1);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.btn-outline-custom:hover {
+  background: var(--gradient-1);
+  color: #fff;
+}

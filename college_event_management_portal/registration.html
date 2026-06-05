@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for college events - Fill in your details and participate in hackathons, coding contests, quizzes, and more.">
+    <title>Registration - EventHub | College Event Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom-buttons.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-mortarboard-fill"></i>EventHub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html"><i class="bi bi-calendar-event me-1"></i>Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="schedule.html"><i class="bi bi-clock me-1"></i>Schedule</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html"><i class="bi bi-images me-1"></i>Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="registration.html"><i class="bi bi-pencil-square me-1"></i>Registration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html"><i class="bi bi-question-circle me-1"></i>FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Registration</li>
+                </ol>
+            </nav>
+            <h1 class="section-title">Event <span class="highlight">Registration</span></h1>
+            <p class="section-subtitle">Fill in your details to register for your favourite events</p>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="section registration-section">
+        <div class="container">
+            <!-- Alert Container -->
+            <div id="alertContainer" class="mb-4"></div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-container animate-on-scroll">
+                        <div class="text-center mb-4">
+                            <div style="width:64px;height:64px;border-radius:16px;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                                <i class="bi bi-pencil-square" style="font-size:1.6rem;color:white;"></i>
+                            </div>
+                            <h3 style="font-family:'Outfit',sans-serif;font-weight:700;">Register for an Event</h3>
+                            <p style="color:var(--text-secondary);font-size:0.95rem;">Please fill in all the required fields below</p>
+                        </div>
+
+                        <form id="registrationForm" novalidate>
+                            <div class="row g-3">
+                                <!-- Student Name -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="studentName" placeholder="Student Name" required>
+                                        <label for="studentName"><i class="bi bi-person me-2"></i>Student Name</label>
+                                    </div>
+                                </div>
+
+                                <!-- Roll Number -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="rollNumber" placeholder="Roll Number" required>
+                                        <label for="rollNumber"><i class="bi bi-hash me-2"></i>Roll Number</label>
+                                    </div>
+                                </div>
+
+                                <!-- Branch -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="branch" required>
+                                            <option value="" selected disabled>Select Branch</option>
+                                            <option value="Computer Science">Computer Science (CSE)</option>
+                                            <option value="Information Technology">Information Technology (IT)</option>
+                                            <option value="Electronics">Electronics & Communication (ECE)</option>
+                                            <option value="Electrical">Electrical Engineering (EEE)</option>
+                                            <option value="Mechanical">Mechanical Engineering (ME)</option>
+                                            <option value="Civil">Civil Engineering (CE)</option>
+                                            <option value="AI/ML">AI & Machine Learning</option>
+                                            <option value="Data Science">Data Science</option>
+                                        </select>
+                                        <label for="branch"><i class="bi bi-book me-2"></i>Branch</label>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Email" required>
+                                        <label for="email"><i class="bi bi-envelope me-2"></i>Email Address</label>
+                                    </div>
+                                </div>
+
+                                <!-- Mobile Number -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="mobile" placeholder="Mobile Number" maxlength="10" required>
+                                        <label for="mobile"><i class="bi bi-phone me-2"></i>Mobile Number</label>
+                                    </div>
+                                </div>
+
+                                <!-- Event Selection -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="eventSelection" required>
+                                            <option value="" selected disabled>Select Event</option>
+                                            <option value="Technical Quiz">Technical Quiz</option>
+                                            <option value="Hackathon 2026">Hackathon 2026</option>
+                                            <option value="Poster Presentation">Poster Presentation</option>
+                                            <option value="Coding Contest">Coding Contest</option>
+                                            <option value="Project Expo">Project Expo</option>
+                                            <option value="Cultural Fest">Cultural Fest</option>
+                                            <option value="Web Dev Challenge">Web Dev Challenge</option>
+                                            <option value="Robotics Workshop">Robotics Workshop</option>
+                                            <option value="AI Symposium">AI Symposium</option>
+                                        </select>
+                                        <label for="eventSelection"><i class="bi bi-calendar-event me-2"></i>Select Event</label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary-custom w-100 py-3" id="submitBtn">
+                                        <i class="bi bi-check-circle me-2"></i>Submit Registration
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">
+                        <i class="bi bi-check-circle-fill me-2" style="color: var(--accent);"></i>Registration Confirmed
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="successModalBody">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                    <a href="events.html" class="btn btn-primary-custom">View More Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand"><i class="bi bi-mortarboard-fill me-2"></i>EventHub</div>
+                    <p class="footer-text">Your one-stop platform for discovering and registering for exciting college events.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 footer-links">
+                    <h6>Quick Links</h6>
+                    <a href="index.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="schedule.html">Schedule</a>
+                    <a href="gallery.html">Gallery</a>
+                </div>
+                <div class="col-lg-2 col-md-4 footer-links">
+                    <h6>Resources</h6>
+                    <a href="registration.html">Registration</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="#">Support</a>
+                </div>
+                <div class="col-lg-4 col-md-4 footer-links">
+                    <h6>Contact Info</h6>
+                    <a href="#"><i class="bi bi-geo-alt me-2"></i>123 College Avenue, University Campus</a>
+                    <a href="#"><i class="bi bi-envelope me-2"></i>events@eventhub.edu</a>
+                    <a href="#"><i class="bi bi-telephone me-2"></i>+91 98765 43210</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventHub - College Event Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop"><i class="bi bi-arrow-up"></i></button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
