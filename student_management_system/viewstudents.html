@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             margin: 0;
             padding: 0;
         }
+
         nav {
             background-color: black;
             padding: 10px;
@@ -23,70 +25,112 @@
             font-size: 18px;
             color: white;
         }
+
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
         }
+
         nav a:hover {
             color: yellow;
         }
+
         h1 {
             text-align: center;
             margin-top: 50px;
         }
+
         table {
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         tr:nth-child(even) {
             background-color: cyan;
         }
+
         tr:nth-child(odd) {
             background-color: #ffffff;
         }
     </style>
 </head>
+
 <body>
     <nav>
         <a href="dashboard.html">Dashboard</a>
         <a href="addstudent.html">Add Student</a>
-        <a href="editstudent.html">Edit Student</a>
         <a href="logout.html">Logout</a>
     </nav>
     <h1>Students List</h1>
     <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Roll Number</th>
-            <th>Grade</th>
-        </tr>
-        <tr>
-            <td>Junead</td>
-            <td>1</td>
-            <td>A</td>
-        </tr>
-        <tr>
-            <td>Aditya</td>
-            <td>2</td>
-            <td>A+</td>
-        </tr>
-        <tr>
-            <td>Surya</td>
-            <td>3</td>
-            <td>A+</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Grade</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable">
+        </tbody>
     </table>
+    <script>
+        function loadStudents() {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            let table = document.getElementById("studentTable");
+
+            table.innerHTML = "";
+
+            students.forEach((student, index) => {
+                table.innerHTML += `
+        <tr>
+            <td>${student.name}</td>
+            <td>${student.rollno}</td>
+            <td>${student.grade}</td>
+            <td>
+                <button onclick="editStudent(${index})">Edit</button>
+                <button onclick="deleteStudent(${index})">Delete</button>
+            </td>
+        </tr>
+        `;
+            });
+        }
+
+        function editStudent(index) {
+            localStorage.setItem("editIndex", index);
+            window.location.href = "editstudent.html";
+        }
+
+        function deleteStudent(index) {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+
+            if (confirm("Delete this student?")) {
+                students.splice(index, 1);
+                localStorage.setItem("students", JSON.stringify(students));
+                loadStudents();
+            }
+        }
+
+        loadStudents();
+    </script>
 </body>
+
 </html>

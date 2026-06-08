@@ -1,90 +1,132 @@
 <!DOCTYPE html>
 <htmL>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-        <title>Login</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                min-height: 100vh;
-                background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJRHzKyfB2OvdcWyKMRbFgbRb8-LfwJ8vUA&s');
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center bottom;
-                background-attachment: fixed;
-                margin: 0;
-                padding: 0;
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJRHzKyfB2OvdcWyKMRbFgbRb8-LfwJ8vUA&s');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        nav a:hover {
+            color: yellow;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            width: 320px;
+            margin: 40px auto;
+            padding: 30px;
+            border: 1px solid black;
+            border-radius: 8px;
+            box-sizing: border-box;
+            text-align: left;
+            background: #f9f9f9;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        form input:not([type="submit"]) {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form input[type="submit"] {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+    </nav>
+    <h1>Login to Your Account</h1>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required /><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required /><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            if (!user) {
+                alert("Please register first!");
+                window.location.href = "register.html";
+                return;
             }
-            nav{
-                background-color: black;
-                padding: 10px;
-                text-align: center;
-                font-size: 18px;
-                color: white;
+
+            if (username === user.username && password === user.password) {
+
+                localStorage.setItem("loggedIn", "true");
+                localStorage.setItem("loggedInUser", username);
+
+                alert("Login Successful!");
+
+                window.location.href = "dashboard.html";
+
+            } else {
+
+                alert("Invalid Username or Password");
+
             }
-            nav a{
-                color: white;
-                text-decoration: none;
-                margin: 0 15px;
-            }
-            nav a:hover{
-                color:yellow;
-            }
-            h1{
-                text-align: center;
-                margin-top: 50px;
-            }
-            form{
-                width: 320px;
-                margin: 40px auto;
-                padding: 30px;
-                border: 1px solid black;
-                border-radius: 8px;
-                box-sizing: border-box;
-                text-align: left;
-                background: #f9f9f9;
-            }
-            form label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 600;
-                color: #333;
-            }
-            form input:not([type="submit"]) {
-                display: block;
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-            form input[type="submit"] {
-                display: block;
-                margin: 20px auto 0;
-                padding: 10px 20px;
-                cursor: pointer;
-                border: none;
-                background: #333;
-                color: white;
-                border-radius: 4px;
-            }
-        </style>
-    </head>
-    <body>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-        </nav>
-        <h1>Login to Your Account</h1>
-        <form action="dashboard.html" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required/><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required/><br><br>
-            <input type="submit" value="Login">
-        </form>
-    </body>
+        });
+    </script>
+</body>
+
 </htmL>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,27 +17,32 @@
             margin: 0;
             padding: 0;
         }
-        nav{
+
+        nav {
             background-color: black;
             padding: 10px;
             text-align: center;
             font-size: 18px;
             color: white;
         }
-        nav a{
+
+        nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
         }
-        nav a:hover{
-            color:yellow;
+
+        nav a:hover {
+            color: yellow;
         }
-        h1{
+
+        h1 {
             text-align: center;
             margin-top: 50px;
         }
     </style>
 </head>
+
 <body>
     <nav>
         <a href="dashboard.html">Dashboard</a>
@@ -46,5 +52,12 @@
         <a href="logout.html">Logout</a>
     </nav>
     <h1>Welcome to the student management Dashboard</h1>
+    <script>
+        if (localStorage.getItem("loggedIn") !== "true") {
+            alert("Please login first!");
+            window.location.href = "login.html";
+        }
+    </script>
 </body>
+
 </html>

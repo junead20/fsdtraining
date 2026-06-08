@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             margin: 0;
             padding: 0;
         }
+
         nav {
             background-color: black;
             padding: 10px;
@@ -23,18 +25,22 @@
             font-size: 18px;
             color: white;
         }
+
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
         }
+
         nav a:hover {
             color: yellow;
         }
+
         h1 {
             text-align: center;
             margin-top: 50px;
         }
+
         form {
             width: 320px;
             margin: 40px auto;
@@ -45,12 +51,14 @@
             text-align: left;
             background: #f9f9f9;
         }
+
         form label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
         }
+
         form input:not([type="submit"]) {
             display: block;
             width: 100%;
@@ -60,6 +68,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         form input[type="submit"] {
             display: block;
             margin: 20px auto 0;
@@ -72,6 +81,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav>
         <a href="dashboard.html">Dashboard</a>
@@ -81,14 +91,36 @@
         <a href="logout.html">Logout</a>
     </nav>
     <h1>Add New Student</h1>
-    <form action="viewstudents.html" method="post">
+    <form id="studentForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter student's name" required/><br><br>
+        <input type="text" id="name" name="name" placeholder="Enter student's name" required /><br><br>
         <label for="rollno">Roll Number:</label>
-        <input type="text" id="rollno" name="rollno" placeholder="Enter student's roll number" required/><br><br>
+        <input type="text" id="rollno" name="rollno" placeholder="Enter student's roll number" required /><br><br>
         <label for="grade">Grade:</label>
-        <input type="text" id="grade" name="grade" placeholder="Enter student's grade" required/><br><br>
-        <input type="submit" value="Add Student"/>
+        <input type="text" id="grade" name="grade" placeholder="Enter student's grade" required /><br><br>
+        <input type="submit" value="Add Student" />
     </form>
+    <script>
+        document.getElementById("studentForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+
+            const student = {
+                name: document.getElementById("name").value,
+                rollno: document.getElementById("rollno").value,
+                grade: document.getElementById("grade").value
+            };
+
+            students.push(student);
+
+            localStorage.setItem("students", JSON.stringify(students));
+
+            alert("Student Added Successfully!");
+
+            window.location.href = "viewstudents.html";
+        });
+    </script>
 </body>
+
 </html>
