@@ -314,6 +314,39 @@ textarea {
   min-height: 100vh;
   padding-bottom: 72px;
   padding-top: 132px;
+
+  /* Added */
+  max-width: 100%;
+  width: 100%;
+}
+
+.hero.section-shell {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-copy {
+  max-width: 1000px;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-actions {
+  justify-content: center;
+}
+
+.hero-metrics {
+  margin-inline: auto;
+}
+
+.system-pill {
+  margin-inline: auto;
+}
+
+.hero-lead {
+  margin-inline: auto;
 }
 
 .system-pill {
