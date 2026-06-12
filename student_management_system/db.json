@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "username": "junead",
+      "email": "junead@gmail.com",
+      "password": "Junead",
+      "id": "t2t1fr5zzp0"
+    },
+    {
+      "username": "Surya",
+      "email": "surya@gmail.com",
+      "password": "surya123",
+      "id": "VMaZ0BXmD1M"
+    }
+  ],
+  "students": [
+    {
+      "id": "ft1b1dOwRio",
+      "name": "Surya",
+      "rollno": "5Q2",
+      "grade": "S++"
+    },
+    {
+      "name": "Junead",
+      "rollno": "5M0",
+      "grade": "S",
+      "id": "yN1NprYJYOI"
+    },
+    {
+      "name": "Aditya",
+      "rollno": "5K3",
+      "grade": "S++",
+      "id": "9jkAf2Xy7yg"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

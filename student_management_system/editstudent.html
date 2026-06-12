@@ -110,33 +110,74 @@
     </form>
 
     <script>
-        let students = JSON.parse(localStorage.getItem("students")) || [];
-        let index = localStorage.getItem("editIndex");
-
-        if (index === null) {
-            alert("Select a student first");
-            window.location.href = "viewstudents.html";
+        let studentId = null;
+        async function loadStudent() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            if (id) {
+                try {
+                    const response = await fetch(
+                        `http://localhost:3000/students/${id}`
+                    );
+                    const student = await response.json();
+                    studentId = student.id;
+                    document.getElementById("name").value = student.name;
+                    document.getElementById("rollno").value = student.rollno;
+                    document.getElementById("grade").value = student.grade;
+                }
+                catch (error) {
+                    console.error(error);
+                    alert("Unable to load student.");
+                }
+            }
         }
-
-        document.getElementById("name").value = students[index].name;
-        document.getElementById("rollno").value = students[index].rollno;
-        document.getElementById("grade").value = students[index].grade;
-
-        document.getElementById("editForm").addEventListener("submit", function (e) {
+        document.getElementById("editForm").addEventListener("submit", async function (e) {
             e.preventDefault();
+            const rollno = document.getElementById("rollno").value.trim();
+            const name = document.getElementById("name").value.trim();
+            const grade = document.getElementById("grade").value.trim();
+            try {
+                if (!studentId) {
+                    const response = await fetch(
+                        `http://localhost:3000/students?rollno=${encodeURIComponent(rollno)}`
+                    );
+                    const students = await response.json();
+                    if (students.length === 0) {
+                        alert("No student found with this Roll Number!");
+                        return;
+                    }
 
-            students[index] = {
-                name: document.getElementById("name").value,
-                rollno: document.getElementById("rollno").value,
-                grade: document.getElementById("grade").value
-            };
+                    studentId = students[0].id;
+                }
+                const updatedStudent = {
+                    id: studentId,
+                    name,
+                    rollno,
+                    grade
+                };
+                const updateResponse = await fetch(
+                    `http://localhost:3000/students/${studentId}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(updatedStudent)
+                    }
+                );
+                if (updateResponse.ok) {
+                    alert("Student Updated Successfully!");
+                    window.location.href = "viewstudents.html";
+                } else {
+                    alert("Failed to update student.");
+                }
 
-            localStorage.setItem("students", JSON.stringify(students));
-
-            alert("Student Updated Successfully");
-
-            window.location.href = "viewstudents.html";
+            } catch (error) {
+                console.error(error);
+                alert("Error updating student.");
+            }
         });
+        loadStudent();
     </script>
 </body>
 

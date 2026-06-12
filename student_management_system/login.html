@@ -97,33 +97,37 @@
         <input type="submit" value="Login">
     </form>
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            const username = document.getElementById("username").value;
+            const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value;
 
-            const user = JSON.parse(localStorage.getItem("user"));
+            try {
+                const response = await fetch(
+                    `http://localhost:3000/users?username=${encodeURIComponent(username)}`
+                );
 
-            if (!user) {
-                alert("Please register first!");
-                window.location.href = "register.html";
-                return;
-            }
+                const users = await response.json();
 
-            if (username === user.username && password === user.password) {
+                if (users.length === 0) {
+                    alert("User not found. Please register first.");
+                    window.location.href = "register.html";
+                    return;
+                }
 
-                localStorage.setItem("loggedIn", "true");
-                localStorage.setItem("loggedInUser", username);
+                const user = users[0];
 
-                alert("Login Successful!");
+                if (user.password === password) {
+                    alert("Login Successful!");
+                    window.location.href = "dashboard.html";
+                } else {
+                    alert("Invalid username or Password!");
+                }
 
-                window.location.href = "dashboard.html";
-
-            } else {
-
-                alert("Invalid Username or Password");
-
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Server error. Make sure json-server is running.");
             }
         });
     </script>

@@ -42,7 +42,10 @@
     <h1>You have been logged out successfully.</h1>
     <a href="index.html">Go to Home</a>
     <script>
-        localStorage.removeItem("loggedIn");
+        fetch('http://localhost:3000/logout', {
+            method: 'POST',
+            credentials: 'include'
+        })
     </script>
 </body>
 

@@ -101,24 +101,47 @@
         <input type="submit" value="Add Student" />
     </form>
     <script>
-        document.getElementById("studentForm").addEventListener("submit", function (e) {
+        document.getElementById("studentForm").addEventListener("submit", async function (e) {
             e.preventDefault();
-
-            let students = JSON.parse(localStorage.getItem("students")) || [];
-
-            const student = {
-                name: document.getElementById("name").value,
-                rollno: document.getElementById("rollno").value,
-                grade: document.getElementById("grade").value
-            };
-
-            students.push(student);
-
-            localStorage.setItem("students", JSON.stringify(students));
-
-            alert("Student Added Successfully!");
-
-            window.location.href = "viewstudents.html";
+            try {
+                const name = document.getElementById("name").value.trim();
+                const rollno = document.getElementById("rollno").value.trim();
+                const grade = document.getElementById("grade").value.trim();
+                if (!name || !rollno || !grade) {
+                    alert("Please fill all fields!");
+                    return;
+                }
+                const response = await fetch("http://localhost:3000/students");
+                const students = await response.json();
+                const exists = students.some(
+                    student => student.rollno === rollno
+                );
+                if (exists) {
+                    alert("Roll Number already exists!");
+                    return;
+                }
+                const student = {
+                    name,
+                    rollno,
+                    grade
+                };
+                const addResponse = await fetch("http://localhost:3000/students", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(student)
+                });
+                if (!addResponse.ok) {
+                    throw new Error("Failed to add student");
+                }
+                alert("Student Added Successfully!");
+                document.getElementById("studentForm").reset();
+                window.location.href = "viewstudents.html";
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error connecting to server. Make sure json-server is running.");
+            }
         });
     </script>
 </body>

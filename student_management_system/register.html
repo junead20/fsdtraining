@@ -108,25 +108,54 @@
         <input type="email" id="email" name="email" placeholder="Enter your email" required /><br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required /><br><br>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
+            required /><br><br>
         <input type="submit" value="Register">
         <p>Already have an account? <a href="login.html">Login here</a>.</p>
     </form>
     <script>
-        document.getElementById("registerForm").addEventListener("submit", function (e) {
+        document.getElementById("registerForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const checkResponse = await fetch(
+                `http://localhost:3000/users?username=${encodeURIComponent(username)}`
+            );
 
+            const existingUsers = await checkResponse.json();
+
+            if (existingUsers.length > 0) {
+                alert("Username already exists!");
+                return;
+            }
             const user = {
                 username,
                 email,
                 password
             };
-
-            localStorage.setItem("user", JSON.stringify(user));
-
+            if (password === confirmPassword) {
+                fetch('http://localhost:3000/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                alert("Passwords do not match. Please try again.");
+                return;
+            }
             alert("Registration Successful!");
             window.location.href = "login.html";
         });

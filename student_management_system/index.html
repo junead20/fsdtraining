@@ -51,28 +51,7 @@
         <form id="studentForm"></form>
     </nav>
     <h1>Welcome to the Learning Management System</h1>
-    <script>
-        document.getElementById("studentForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const name = document.getElementById("name").value;
-            const rollno = document.getElementById("rollno").value;
-            const grade = document.getElementById("grade").value;
-
-            let students = JSON.parse(localStorage.getItem("students")) || [];
-
-            students.push({
-                name,
-                rollno,
-                grade
-            });
-
-            localStorage.setItem("students", JSON.stringify(students));
-
-            alert("Student Added Successfully!");
-            window.location.href = "viewstudents.html";
-        });
-    </script>
+    
 </body>
 
 </html>
