@@ -125,15 +125,20 @@
                     item.dt_txt.includes('12:00:00')
                 ).slice(0, 5);
 
-                let forecastHTML = `
-            <h2>5-Day Forecast</h2>
-            <div class="forecast-container">
-        `;
+                let forecastHTML = `<h2>5-Day Forecast</h2><div class="forecast-container">`;
 
                 dailyForecasts.forEach(day => {
                     forecastHTML += `
                 <div class="forecast-card">
-                    <h3>${new Date(day.dt_txt).toLocaleDateString()}</h3>
+                    <h3>${new Date(day.dt_txt).toLocaleDateString(
+                            'en-US',
+                            {
+                                weekday: 'short',
+                                month: 'short',
+                                day: 'numeric'
+                            }
+                        )}
+                    </h3>
                     <img
                         src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png"
                         alt="${day.weather[0].description}"
@@ -145,13 +150,26 @@
                 });
 
                 forecastHTML += `</div>`;
+                const sunrise = new Date(currentData.sys.sunrise * 1000)
+                    .toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                const sunset = new Date(currentData.sys.sunset * 1000)
+                    .toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
 
                 weatherResult.innerHTML = `
-            <h2>Weather in ${currentData.name}</h2>
+            <h2>Weather in ${currentData.name}, ${currentData.sys.country}</h2>
             <p>Temperature: ${currentData.main.temp}°C</p>
             <p>Description: ${currentData.weather[0].description}</p>
             <p>Humidity: ${currentData.main.humidity}%</p>
             <p>Wind Speed: ${currentData.wind.speed} m/s</p>
+            <p>Sunrise: ${sunrise}</p>
+            <p>Sunset: ${sunset}</p>
             ${forecastHTML}
         `;
 
