@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "name": "Machine Learning",
+    "instructor": "Junead",
+    "hours": 34,
+    "price": 1500
+  }
+]
