@@ -1,0 +1,32 @@
+package com.example.studentmngt.studentmngt;
+
+import java.util.List;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        StudentDAO dao = new StudentDAO();
+
+        Student s = new Student(101, "Junead", "junead@gmail.com", "Java", 21);
+
+        dao.insertStudent(s);
+
+        System.out.println(dao.getStudent(101));
+
+        s.setCourse("Spring Boot");
+        s.setAge(22);
+
+        dao.updateStudent(s);
+
+        List<Student> list = dao.getAllStudents();
+
+        for (Student st : list) {
+            System.out.println(st);
+        }
+
+        dao.deleteStudent(101);
+
+        dao.closeFactory();
+    }
+}

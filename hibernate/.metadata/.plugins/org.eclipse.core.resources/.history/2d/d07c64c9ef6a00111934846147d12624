@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+	<session-factory>
+		<property 
+		<property name="hibernate.connection.url">"jdbc:mysql://3306/sample"</property>
+	</session-factory>
+</hibernate-configuration>

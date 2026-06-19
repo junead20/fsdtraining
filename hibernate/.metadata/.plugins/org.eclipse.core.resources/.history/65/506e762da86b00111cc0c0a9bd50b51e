@@ -1,0 +1,142 @@
+package com.example.employeepayroll;
+
+import java.util.List;
+import java.util.Scanner;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        EmployeeDAO dao = new EmployeeDAO();
+
+        int choice;
+
+        do {
+
+            System.out.println("\n===== EMPLOYEE PAYROLL SYSTEM =====");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Display Employee By ID");
+            System.out.println("3. Display All Employees");
+            System.out.println("4. Update Employee");
+            System.out.println("5. Delete Employee");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+            case 1:
+
+                System.out.print("Enter Employee ID: ");
+                int id = sc.nextInt();
+                sc.nextLine();
+
+                System.out.print("Enter Employee Name: ");
+                String name = sc.nextLine();
+
+                System.out.print("Enter Department: ");
+                String dept = sc.nextLine();
+
+                System.out.print("Enter Salary: ");
+                double salary = sc.nextDouble();
+                sc.nextLine();
+
+                System.out.print("Enter Joining Date (YYYY-MM-DD): ");
+                String date = sc.nextLine();
+
+                Employee emp = new Employee(id, name, dept, salary, date);
+
+                dao.insertEmployee(emp);
+
+                break;
+
+            case 2:
+
+                System.out.print("Enter Employee ID: ");
+                int eid = sc.nextInt();
+
+                Employee employee = dao.getEmployee(eid);
+
+                if (employee != null)
+                    System.out.println(employee);
+                else
+                    System.out.println("Employee Not Found");
+
+                break;
+
+            case 3:
+
+                List<Employee> list = dao.getAllEmployees();
+
+                if (list.isEmpty()) {
+                    System.out.println("No Employees Found");
+                } else {
+
+                    for (Employee e : list) {
+                        System.out.println(e);
+                    }
+                }
+
+                break;
+
+            case 4:
+
+                System.out.print("Enter Employee ID to Update: ");
+                int uid = sc.nextInt();
+
+                Employee e = dao.getEmployee(uid);
+
+                if (e != null) {
+
+                    sc.nextLine();
+
+                    System.out.print("Enter New Name: ");
+                    e.setEmployeeName(sc.nextLine());
+
+                    System.out.print("Enter New Department: ");
+                    e.setDepartment(sc.nextLine());
+
+                    System.out.print("Enter New Salary: ");
+                    e.setSalary(sc.nextDouble());
+                    sc.nextLine();
+
+                    System.out.print("Enter New Joining Date: ");
+                    e.setJoiningDate(sc.nextLine());
+
+                    dao.updateEmployee(e);
+
+                } else {
+
+                    System.out.println("Employee Not Found");
+                }
+
+                break;
+
+            case 5:
+
+                System.out.print("Enter Employee ID to Delete: ");
+                int did = sc.nextInt();
+
+                dao.deleteEmployee(did);
+
+                break;
+
+            case 6:
+
+                dao.closeFactory();
+                System.out.println("Thank You!");
+                break;
+
+            default:
+
+                System.out.println("Invalid Choice");
+
+            }
+
+        } while (choice != 6);
+
+        sc.close();
+    }
+}

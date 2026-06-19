@@ -1,0 +1,26 @@
+package com.example.productdemo;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        SessionFactory sessionFactory = Utility.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Product product=new Product();
+        product.setId(1);
+        product.setName("Book");
+        product.setPrice(100);
+        session.beginTransaction();
+        session.persist(product);
+        session.getTransaction().commit();
+        System.out.println("Product data inserted...");
+        
+    }
+}

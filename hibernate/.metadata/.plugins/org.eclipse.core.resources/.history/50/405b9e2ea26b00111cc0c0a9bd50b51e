@@ -1,0 +1,41 @@
+package com.example.studentmngt.studentmngt.App.App;
+
+import java.util.List;
+
+import com.example.studentmngt.studentmngt.dao.StudentDAO;
+import com.example.studentmngt.studentmngt.entity.Student;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        StudentDAO dao = new StudentDAO();
+
+        // Insert
+        Student s = new Student(101, "Junead", "junead@gmail.com", "Java", 21);
+        dao.insertStudent(s);
+
+        // Read
+        Student student = dao.getStudent(101);
+        System.out.println(student);
+
+        // Update
+        student.setCourse("Spring Boot");
+        student.setAge(22);
+        dao.updateStudent(student);
+
+        // Display All
+        List<Student> list = dao.getAllStudents();
+
+        System.out.println("\nAll Students");
+
+        for (Student st : list) {
+            System.out.println(st);
+        }
+
+        // Delete
+        dao.deleteStudent(101);
+
+        dao.closeFactory();
+    }
+}
