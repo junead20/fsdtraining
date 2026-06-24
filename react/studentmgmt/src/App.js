@@ -1,164 +1,87 @@
-import React, { useState, useEffect } from "react";
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
+
+const istudents=[{name:"Junead",age:20,grade:"S"},{name:"Aditya", age:21, grade:"A"},{name:"Sai", age:22, grade:"B"}];
 
 function App() {
-  const [students, setStudents] = useState(() => {
-    const savedStudents = localStorage.getItem("students");
-    return savedStudents ? JSON.parse(savedStudents) : [];
-  });
 
-  const [name, setName] = useState("");
-  const [course, setCourse] = useState("");
-  const [grade, setGrade] = useState("");
-  const [editId, setEditId] = useState(null);
+  let [students,setStudents]=useState(istudents);
+  let [editIndex,setEditIndex]=useState(null);
+  let [search,setSearch]=useState("")
+  let [ascending,setAscending]=useState(true);
+  let [formData,setFormData]=useState({name:"",age:"",grade:""});
 
-  useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
+  const handleDelete=(i)=>{
+    const updatedStudents=students.filter((s,index)=>index!==i);
+    setStudents(updatedStudents);
+  }
 
-  const addStudent = () => {
-    if (
-      name.trim() === "" ||
-      course.trim() === "" ||
-      grade.trim() === ""
-    ) {
-      alert("Please enter all fields");
-      return;
-    }
+  const handleChange=(e)=>{
+    setFormData({...formData,[e.target.name]:e.target.value});
+  }
 
-    if (editId === null) {
-      const newStudent = {
-        id: Date.now(),
-        name,
-        course,
-        grade,
-      };
+  
+  const handleAdd=()=>{
+    setStudents([...students,formData]);
+    setFormData({name:"",age:"",grade:""});
+  }
 
-      setStudents([...students, newStudent]);
-    } else {
-      setStudents(
-        students.map((student) =>
-          student.id === editId
-            ? { ...student, name, course, grade }
-            : student
-        )
-      );
+  const handleEdit=(i)=>{
+    setEditIndex(i);
+    setFormData(students[i])
+  }
 
-      setEditId(null);
-    }
+  const handleUpdate=()=>{
+    const updatedStudents=students.map((s,i)=>i==editIndex?formData:s)
+    setStudents(updatedStudents)
+    setEditIndex(null)
+    setFormData({name:"",age:"",grade:""})
+  }
 
-    setName("");
-    setCourse("");
-    setGrade("");
-  };
+  const handleSort=()=>{
+    const sorted=filteredStudents.sort((a,b)=>ascending?a.name.localeCompare(b.name):b.name.localeCompare(a.name));
+    setStudents(sortedStudents);
+  }
 
-  const editStudent = (student) => {
-    setName(student.name);
-    setCourse(student.course);
-    setGrade(student.grade);
-    setEditId(student.id);
-  };
-
-  const deleteStudent = (id) => {
-    setStudents(students.filter((student) => student.id !== id));
-  };
+  const filteredStudents=()=>students.filter((s)=>s.name.toLowerCase().includes(search.toLowerCase()))
+  const sortedStudents=[...filteredStudents()].sort((a,b)=>ascending?a.name.localeCompare(b.name):b.name.localeCompare(a.name));
 
   return (
-    <div
-      style={{
-        maxWidth: "700px",
-        margin: "40px auto",
-        textAlign: "center",
-        fontFamily: "Arial",
-      }}
-    >
-      <h1>Student Management System</h1>
-
-      <input
-        type="text"
-        placeholder="Student Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        style={{ padding: "10px", margin: "5px", width: "200px" }}
-      />
-
-      <input
-        type="text"
-        placeholder="Course"
-        value={course}
-        onChange={(e) => setCourse(e.target.value)}
-        style={{ padding: "10px", margin: "5px", width: "200px" }}
-      />
-
-      <input
-        type="text"
-        placeholder="Grade"
-        value={grade}
-        onChange={(e) => setGrade(e.target.value)}
-        style={{ padding: "10px", margin: "5px", width: "200px" }}
-      />
-
-      <br />
-
-      <button
-        onClick={addStudent}
-        style={{
-          padding: "10px 20px",
-          marginTop: "10px",
-          cursor: "pointer",
-        }}
-      >
-        {editId === null ? "Add Student" : "Update Student"}
-      </button>
-
-      <hr />
-
+    <div className="App">
+      <input className='form-control' name="search" value={search} placeholder='Type to search' onChange={(e)=>setSearch(e.target.value)}></input>
+      <div className='form'>
+        <h2>{editIndex==null?"Add Student":"Edit Student"}</h2>
+        <input className='form-control m-2' name='name' placeholder='Name' value={formData.name} onChange={handleChange}></input>
+        <input className='form-control m-2' name='age' placeholder='Age' value={formData.age} onChange={handleChange}></input>
+        <input className='form-control m-2' name='grade' placeholder='Grade' value={formData.grade} onChange={handleChange}></input>
+        {editIndex==null?<button className='btn btn-success m-3' onClick={()=>handleAdd()}>Add Student</button>
+          :<button className='btn btn-primary' onClick={()=>handleUpdate()}>Update Student</button>}
+      </div>
       <h2>Student List</h2>
+      <table className="table table-bodered">
+        <thead>
+          <tr>
+            <th style={{cursor:"pointer"}} onClick={()=>setAscending(!ascending)}>Name<i className={ascending?"bi bi-arrow-up":"bi bi-arrow-down"}></i></th>
+            <th>Age</th>
+            <th>Grade</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-      {students.length === 0 ? (
-        <p>No students added.</p>
-      ) : (
-        <table
-          border="1"
-          cellPadding="10"
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-          }}
-        >
-          <thead>
+        <tbody>
+          {sortedStudents.map((s,index)=>(
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Course</th>
-              <th>Grade</th>
-              <th>Action</th>
+              <td>{s.name}</td>
+              <td>{s.age}</td>
+              <td>{s.grade}</td>
+              <td><button className='btn btn-primary m-2' onClick={()=>handleEdit(index)}>Edit</button>
+              <button className='btn btn-danger m-2' onClick={()=>handleDelete(index)}>Delete</button></td>
             </tr>
-          </thead>
+          ))}
+        </tbody>
 
-          <tbody>
-            {students.map((student) => (
-              <tr key={student.id}>
-                <td>{student.id}</td>
-                <td>{student.name}</td>
-                <td>{student.course}</td>
-                <td>{student.grade}</td>
-                <td>
-                  <button onClick={() => editStudent(student)}>
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => deleteStudent(student.id)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      </table>
     </div>
   );
 }
